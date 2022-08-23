@@ -1,8 +1,8 @@
 <template>
   <div class="login-panel">
     <h1 class="title">后台管理系统</h1>
-    <el-tabs type="border-card" class="demo-tabs" stretch>
-      <el-tab-pane>
+    <el-tabs type="border-card" class="demo-tabs" stretch v-model="currentTap">
+      <el-tab-pane name="account">
         <template #label>
           <span class="custom-tabs-label">
             <el-icon><User /></el-icon>
@@ -11,14 +11,14 @@
         </template>
         <loginAccount ref="accountRef"></loginAccount>
       </el-tab-pane>
-      <el-tab-pane>
+      <el-tab-pane name="phone">
         <template #label>
           <span class="custom-tabs-label">
             <el-icon><Iphone /></el-icon>
             <span>手机登录</span>
           </span>
         </template>
-        <loginPhone></loginPhone>
+        <loginPhone ref="phoneRef"></loginPhone>
       </el-tab-pane>
     </el-tabs>
 
@@ -46,15 +46,25 @@ export default defineComponent({
     LoginPhone
   },
   setup() {
-    const isKeepPassword = ref(false)
+    const isKeepPassword = ref(true)
     const accountRef = ref<InstanceType<typeof LoginAccount>>()
+    const phoneRef = ref<InstanceType<typeof LoginPhone>>()
+    const currentTap = ref('account')
 
     const handleLoginClick = () => {
-      console.log('哈哈哈1')
-      accountRef.value?.loginAction()
-      console.log('哈哈哈2')
+      if (currentTap.value === 'account') {
+        accountRef.value?.loginAction(isKeepPassword.value)
+      } else {
+        console.log('待开发~关于手机验证的一些逻辑~')
+      }
     }
-    return { handleLoginClick, isKeepPassword, accountRef }
+    return {
+      handleLoginClick,
+      isKeepPassword,
+      phoneRef,
+      accountRef,
+      currentTap
+    }
   }
 })
 </script>

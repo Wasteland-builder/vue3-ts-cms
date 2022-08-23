@@ -7,27 +7,12 @@ import 'element-plus/dist/index.css'
 import App from './App.vue'
 import router from './router'
 import store from './store'
-import emRequest from './service'
+// import { setupStore } from './store'
 
 const app = createApp(App)
-app.use(router).use(store).use(ElementPlus).mount('#app')
+app.use(store)
+// setupStore()
+app.use(router)
+app.use(ElementPlus)
 
-emRequest.request({
-  url: '/home/multidata',
-  method: 'GET'
-})
-
-interface DataType {
-  data: any
-  returnCode: string
-  success: boolean
-}
-
-emRequest
-  .get<DataType>({
-    url: '/home/multidata',
-    showLoading: false
-  })
-  .then((res) => {
-    console.log(res)
-  })
+app.mount('#app')
