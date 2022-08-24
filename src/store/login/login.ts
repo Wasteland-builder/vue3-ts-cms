@@ -32,6 +32,10 @@ const loginModule: Module<ILoginState, IRootState> = {
     },
     changeUserMenus(state, userMenus: any) {
       state.userMenus = userMenus
+
+      // userMenus => routes
+
+      // 将router映射到component
     }
   },
   actions: {
