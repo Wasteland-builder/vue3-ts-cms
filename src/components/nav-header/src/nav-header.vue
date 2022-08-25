@@ -4,7 +4,9 @@
       <component :is="isFold ? 'fold' : 'expand'"></component>
     </el-icon>
     <div class="content">
-      <div>面包屑</div>
+      <div class="breadcrumb">
+        <em-breadcrumb :breadcrumbs="breadcrumbs"></em-breadcrumb>
+      </div>
       <div class="user-info">
         <el-row class="buttons">
           <span>
@@ -25,8 +27,13 @@
 </template>
 
 <script lang="ts" setup>
-import { defineEmits, ref, onMounted, watch, Ref } from 'vue'
+import { defineEmits, ref, onMounted, computed, Ref } from 'vue'
+import EmBreadcrumb, { IBreadcrumb } from '@/base-ui/breadcrumb'
 import userInfo from './user-info.vue'
+
+import { useStore } from '@/store'
+import { useRoute } from 'vue-router'
+import { pathMapBreadcrumbs } from '@/utils/map-menus'
 
 const emit = defineEmits(['foldChange'])
 
@@ -42,7 +49,6 @@ onMounted(() => {
     if ((screenWidth as unknown as number) < 768) {
       isFold = true as unknown as Ref<boolean>
       emit('foldChange', isFold)
-      console.log(isFold)
       // handleFoldClick()
     } else {
       isFold = false as unknown as Ref<boolean>
@@ -50,6 +56,14 @@ onMounted(() => {
     }
   }
 })
+const store = useStore()
+const breadcrumbs = computed(() => {
+  const userMenus = store.state.login.userMenus.data
+  const route = useRoute()
+  const currentPath = route.path
+  return pathMapBreadcrumbs(userMenus, currentPath)
+})
+console.log(breadcrumbs.value)
 </script>
 
 <style scoped lang="less">

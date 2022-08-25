@@ -47,16 +47,12 @@ const loginModule: Module<ILoginState, IRootState> = {
     async accountLoginAction({ commit }, payload: IAccount) {
       // 1.实现登录逻辑
       const loginResult = await accountLoginRequest(payload)
-      console.log(loginResult)
-      console.log(loginResult.data.data)
       const { id, token } = loginResult.data.data
-      console.log(id, token)
       commit('changeToken', token)
       localCache.setCache('token', token)
 
       // 2.请求用户信息
       const userInfoResult = await requestUserInfoById(id)
-      console.log(userInfoResult.data)
       const userInfo = userInfoResult.data.data
       commit('changeUserInfo', userInfo)
       localCache.setCache('userInfo', userInfo)
