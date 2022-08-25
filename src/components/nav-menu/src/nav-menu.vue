@@ -50,8 +50,10 @@
 <script lang="ts" setup>
 import { computed, defineProps } from 'vue'
 import { useStore } from '@/store'
+import { useRouter } from 'vue-router'
 
 const store = useStore()
+const router = useRouter()
 const userMenus = computed(() => store.state.login.userMenus.data)
 const Icons = (item: any) => {
   let itemIcon = item.icon
@@ -64,8 +66,10 @@ const props = defineProps({
     default: false
   }
 })
-const handleMenuItemClick = (subitem) => {
-  console.log(subitem)
+const handleMenuItemClick = (subitem: any) => {
+  router.push({
+    path: subitem.url ?? '/not-found'
+  })
 }
 </script>
 
