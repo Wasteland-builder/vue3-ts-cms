@@ -25,6 +25,5 @@ export const searchFormConfig: IForm = {
         type: 'daterange'
       }
     }
-  ],
-  itemLayout: undefined
+  ]
 }
