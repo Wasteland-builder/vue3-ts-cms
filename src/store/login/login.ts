@@ -6,7 +6,7 @@ import {
   requestUserMenusByRoleId
 } from '@/service/login/login'
 import localCache from '@/utils/cache'
-import { mapMenusToRoutes } from '@/utils/map-menus'
+import { mapMenusToRoutes, mapMenusToPermissions } from '@/utils/map-menus'
 import router from '@/router'
 
 import { IAccount } from '@/service/login/type'
@@ -35,25 +35,29 @@ const loginModule: Module<ILoginState, IRootState> = {
       state.userMenus = userMenus
 
       // userMenus => routes
-      const routes = mapMenusToRoutes(userMenus.data)
+      const routes = mapMenusToRoutes(userMenus.data || userMenus)
 
       // 将routes => router.main.children
       routes.forEach((route) => {
         router.addRoute('main', route)
       })
+
+      // 获取用户按钮的权限
+      const permissions = mapMenusToPermissions(userMenus)
+      state.permissions = permissions
     }
   },
   actions: {
     async accountLoginAction({ commit }, payload: IAccount) {
       // 1.实现登录逻辑
       const loginResult = await accountLoginRequest(payload)
-      const { id, token } = loginResult.data.data
+      const { id, token } = loginResult.data
       commit('changeToken', token)
       localCache.setCache('token', token)
 
       // 2.请求用户信息
       const userInfoResult = await requestUserInfoById(id)
-      const userInfo = userInfoResult.data.data
+      const userInfo = userInfoResult.data
       commit('changeUserInfo', userInfo)
       localCache.setCache('userInfo', userInfo)
 
@@ -63,7 +67,7 @@ const loginModule: Module<ILoginState, IRootState> = {
       commit('changeUserMenus', userMenus)
       localCache.setCache('userMenus', userMenus)
 
-      // // 4.跳到首页
+      // 4.跳到首页
       router.push('/main')
     },
     loadLocalLogin({ commit }) {

@@ -57,7 +57,7 @@ const store = useStore()
 const router = useRouter()
 const route = useRoute()
 const currentPath = route.path
-const userMenus = computed(() => store.state.login.userMenus.data)
+const userMenus = computed(() => store.state.login.userMenus)
 const Icons = (item: any) => {
   let itemIcon = item.icon
   itemIcon = itemIcon.split('-').slice(2).join('-')

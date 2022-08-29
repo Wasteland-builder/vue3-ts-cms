@@ -1,5 +1,5 @@
 import axios from 'axios'
-import type { AxiosInstance } from 'axios'
+import type { AxiosInstance, AxiosResponse } from 'axios'
 import type { EMRequestConfig, EMRequestInterceptors } from './type'
 
 import { ElLoading } from 'element-plus'
@@ -43,11 +43,21 @@ class EMRequest {
       }
     )
     this.instance.interceptors.response.use(
-      (config) => {
+      (res) => {
         this.loadingInstance?.close()
-        return config
+
+        const data = res.data
+        if (data.returnCode === '-1001') {
+          console.log('请求失败~, 错误信息')
+        } else {
+          return data
+        }
       },
       (err) => {
+        this.loadingInstance?.close()
+        if (err.response.status === 404) {
+          console.log('404的错误~')
+        }
         return err
       }
     )
@@ -67,7 +77,10 @@ class EMRequest {
         .request<any, T>(config)
         .then((res) => {
           if (config.interceptors?.responseInterceptor) {
-            // res = config.interceptors.responseInterceptor(res)
+            ;(res as unknown as AxiosResponse<any, any>) =
+              config.interceptors.responseInterceptor(
+                res as unknown as AxiosResponse<any, any>
+              )
           }
           this.showLoading = DEAFULT_LOADING
           resolve(res)

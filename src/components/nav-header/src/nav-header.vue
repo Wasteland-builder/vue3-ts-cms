@@ -8,7 +8,7 @@
         <em-breadcrumb :breadcrumbs="breadcrumbs"></em-breadcrumb>
       </div>
       <div class="user-info">
-        <el-row class="buttons" v-if="showIconLabel">
+        <el-row class="buttons">
           <span>
             <el-icon class="iconPage"><ChatLineRound /></el-icon>
           </span>
@@ -27,15 +27,7 @@
 </template>
 
 <script lang="ts" setup>
-import {
-  defineEmits,
-  ref,
-  onMounted,
-  computed,
-  Ref,
-  ComputedRef,
-  watch
-} from 'vue'
+import { defineEmits, ref, computed, ComputedRef } from 'vue'
 import EmBreadcrumb, { IBreadcrumb } from '@/base-ui/breadcrumb'
 import userInfo from './user-info.vue'
 
@@ -45,37 +37,43 @@ import { pathMapBreadcrumbs } from '@/utils/map-menus'
 
 const emit = defineEmits(['foldChange'])
 
-let screenWidth = ref(1960)
 let isFold = ref(false)
-let showIconLabel: ComputedRef<number>
-onMounted(() => {
-  window.onresize = () => {
-    screenWidth = document.body.clientWidth as unknown as Ref<number>
-    if ((screenWidth as unknown as number) < 768) {
-      isFold = true as unknown as Ref<boolean>
-      emit('foldChange', isFold)
-      // handleFoldClick()
-    } else {
-      isFold = false as unknown as Ref<boolean>
-      emit('foldChange', isFold)
-    }
-    // console.log(screenWidth)
-  }
-})
-
-const handleFoldClick = () => {
-  if ((screenWidth as any) >= 600) {
-    isFold = !isFold
-    emit('foldChange', isFold)
-  }
-}
 const store = useStore()
 const breadcrumbs = computed(() => {
-  const userMenus = store.state.login.userMenus.data
+  const userMenus = store.state.login.userMenus
   const route = useRoute()
   const currentPath = route.path
   return pathMapBreadcrumbs(userMenus, currentPath)
 })
+const handleFoldClick = () => {
+  isFold.value = !isFold.value
+  emit('foldChange', isFold.value)
+}
+// 响应式布局，但是有一点小问题待解决
+// let screenWidth = ref(1960)
+// onMounted(() => {
+//   window.onresize = () => {
+//     screenWidth = document.body.clientWidth as unknown as Ref<number>
+//     if ((screenWidth as unknown as number) < 768) {
+//       isFold = true as unknown as Ref<boolean>
+//       emit('foldChange', isFold)
+//       // handleFoldClick()
+//     } else {
+//       isFold = false as unknown as Ref<boolean>
+//       emit('foldChange', isFold)
+//     }
+//     // console.log(screenWidth)
+//   }
+// })
+
+// const handleFoldClick = () => {
+//   console.log(screenWidth)
+//   if ((screenWidth.value as any) >= 600) {
+//     console.log(isFold)
+//     isFold = !isFold
+//     emit('foldChange', isFold)
+//   }
+// }
 </script>
 
 <style scoped lang="less">

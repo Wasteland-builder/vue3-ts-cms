@@ -1,5 +1,7 @@
 <template>
   <div class="role">
+    <!--       @resetBtnClick="handleResetClick"
+      @queryBtnClick="handleQueryClick" -->
     <page-search :searchFormConfig="searchFormConfig"></page-search>
     <page-content
       :contentTableConfig="contentTableConfig"
