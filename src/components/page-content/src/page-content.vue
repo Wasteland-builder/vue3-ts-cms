@@ -37,7 +37,6 @@
           >
         </div>
       </template>
-
       <!-- 在page-content中动态插入剩余的插槽 -->
       <template
         v-for="item in otherPropSlots"

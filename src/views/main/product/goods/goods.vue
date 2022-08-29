@@ -6,6 +6,8 @@
           style="width: 60px; height: 60px"
           :src="scope.row.imgUrl"
           :preview-src-list="[scope.row.imgUrl]"
+          preview-teleported="true"
+          hide-on-click-modal="true"
         >
         </el-image>
       </template>
