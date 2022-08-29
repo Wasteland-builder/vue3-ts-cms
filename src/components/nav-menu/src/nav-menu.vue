@@ -75,6 +75,7 @@ const handleMenuItemClick = (subitem: any) => {
   })
 }
 const menu = pathMapToMenu(userMenus.value, currentPath)
+// 返回这个值保持刷新后路由位置不改变
 const defaultValue = ref(menu?.id + '')
 </script>
 

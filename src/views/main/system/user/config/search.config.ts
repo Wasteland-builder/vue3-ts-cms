@@ -1,9 +1,9 @@
 import { IForm } from '@/base-ui/form'
 
 export const searchFormConfig: IForm = {
-  labelWidth: '120px',
+  labelWidth: '100px',
   itemLayout: {
-    padding: '10px 40px'
+    padding: '10px 20px'
   },
   formItems: [
     {
@@ -39,8 +39,8 @@ export const searchFormConfig: IForm = {
       type: 'datepicker',
       label: '创建时间',
       otherOptions: {
-        startPlaceholder: '开始时间',
-        endPlaceholder: '结束时间',
+        startPlaceholder: '开始',
+        endPlaceholder: '结束',
         type: 'daterange'
       }
     }

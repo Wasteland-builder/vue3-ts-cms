@@ -2,7 +2,7 @@
   <div class="nav-breadcrumb">
     <el-breadcrumb separator="/">
       <template v-for="item in breadcrumbs" :key="item.name">
-        <el-breadcrumb-item>{{ item.name }}</el-breadcrumb-item>
+        <el-breadcrumb-item class="myColor">{{ item.name }}</el-breadcrumb-item>
       </template>
     </el-breadcrumb>
   </div>
@@ -25,4 +25,9 @@ export default defineComponent({
 })
 </script>
 
-<style scoped lang="less"></style>
+<style scoped>
+.myColor:nth-child(1) >>> .el-breadcrumb__inner {
+  color: black;
+  font-weight: 700;
+}
+</style>

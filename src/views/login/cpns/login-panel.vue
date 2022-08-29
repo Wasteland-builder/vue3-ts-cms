@@ -22,7 +22,7 @@
       </el-tab-pane>
     </el-tabs>
 
-    <div class="account-control">
+    <div class="account-control" v-if="currentTap === 'account'">
       <el-checkbox v-model="isKeepPassword">记住密码</el-checkbox>
       <el-link type="primary">忘记密码</el-link>
     </div>

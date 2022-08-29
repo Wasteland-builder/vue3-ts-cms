@@ -6,7 +6,9 @@
     </span>
     <template #dropdown>
       <el-dropdown-menu>
-        <el-dropdown-item :icon="CircleCloseFilled">退出登录</el-dropdown-item>
+        <el-dropdown-item :icon="CircleCloseFilled" @click="handleBackup"
+          >退出登录</el-dropdown-item
+        >
         <el-dropdown-item divided>用户信息</el-dropdown-item>
         <el-dropdown-item>系统管理</el-dropdown-item>
       </el-dropdown-menu>
@@ -16,6 +18,11 @@
 
 <script lang="ts" setup>
 import { CircleCloseFilled } from '@element-plus/icons-vue'
+import { useRouter } from 'vue-router'
+const router = useRouter()
+const handleBackup = () => {
+  router.push('/login')
+}
 </script>
 
 <style scoped lang="less">
