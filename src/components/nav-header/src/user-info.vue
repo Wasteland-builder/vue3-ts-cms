@@ -19,8 +19,10 @@
 <script lang="ts" setup>
 import { CircleCloseFilled } from '@element-plus/icons-vue'
 import { useRouter } from 'vue-router'
+import localCache from '@/utils/cache'
 const router = useRouter()
 const handleBackup = () => {
+  localCache.deleteCache('token')
   router.push('/login')
 }
 </script>
